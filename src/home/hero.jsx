@@ -27,19 +27,20 @@ const Hero = () => {
     const q = query(colref,where("from","==","Banglore"),where("to","==",destination))
 onSnapshot(q,(snapshot)=>{
 snapshot.docs.forEach((doc)=>{
-list.push({...doc.data(),id:doc.id})
+  setData(data=>[...data,{...doc.data(),id:doc.id}])
 })
 })
-console.log(list)
+console.log(data)
 const colref1 =  collection(db, "airlines", "HxtYMCbCsTUFBWRSprWh3UZrSfp1","bookings");
     const q1 = query(colref1,where("from","==","Banglore"),where("to","==",destination))
 onSnapshot(q1,(snapshot)=>{
 snapshot.docs.forEach((doc)=>{
-list.push({...doc.data(),id:doc.id})
+  setData(data=>[...data,{...doc.data(),id:doc.id}])
 })
 })
+
 console.log(list)
-setData(list)
+
 setLoading(false);
     };
 
@@ -51,7 +52,7 @@ setLoading(false);
   useEffect(()=>{
     
     // getUsers()
-  },[data])
+  },[destination])
 
   return (
     <div>
@@ -78,10 +79,10 @@ setLoading(false);
       <div>
         <h1 className="text-black font-bold text-[1.8rem] px-6">Available Flights</h1>
         {data.length > 0 ? (
-          data.map((d) => {
-            console.log("YES")
+          data.map((d,index) => {
+            console.log(d)
             return (
-              <div key={d.flightNo}>
+              <div key={index}>
               <h1 className="text-black font-bold text-[1.5rem] px-12">{d.flightNo}</h1>
             </div>
           )}
